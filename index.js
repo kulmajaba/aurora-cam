@@ -1,9 +1,8 @@
 const express = require('express');
-const spawn = require('child_process').spawn;
 const execFile = require('child_process').execFile;
 const bodyParser = require('body-parser');
 
-const gp = spawn('gphoto2', ['--auto-detect']);
+const gp = execFile('gphoto2', ['--auto-detect']);
 gp.stdout.on('data', (data) => {
     console.log(data);
 });
@@ -17,7 +16,7 @@ app.get('/', function(request, response) {
 
 // Get all settings, their values and options
 app.get('/api/v1/config', function(request, response) {
-    // spawn has limited buffersize of 200 kB, use execFile instead
+    // default limited buffersize is 200 kB
     const gp1 = execFile('gphoto2', ['--list-all-config'], { maxBuffer: 500*1024 }, (error, data, stderr) => {
         let lines = data.toString().split('\n');
         let result = {};
@@ -61,6 +60,8 @@ app.get('/api/v1/config', function(request, response) {
     console.log('Done')
 });
 
+// Change camera settings
+// Currently only ISO, Aperture and Shutter speed supported
 app.post('/api/v1/config/main/:category/:setting', function(request, response) {
     let cat = request.params.category;
     let set = request.params.setting;
@@ -79,8 +80,7 @@ app.post('/api/v1/config/main/:category/:setting', function(request, response) {
 
 // Take a picture
 app.post('/api/v1/capture', function(request, response) {
-    const gp1 = spawn('gphoto2', ['--capture-image']);
-    gp1.stdout.on('data', (data) => {
+    const gp1 = execFile('gphoto2', ['--capture-image-and-download'], (error, data) => {
         console.log(data);
         response.status(201).send('Success');
     });
