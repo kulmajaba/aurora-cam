@@ -60,10 +60,53 @@ app.get('/', function(request, response) {
 });
 
 // Get all settings, their values and options
+// Current values can be outdated
 app.get('/api/v1/config', function(request, response) {
-  console.log(request.app.locals);
   response.send(request.app.locals.fullConfig);
-  console.log('Done')
+  console.log('Done');
+});
+
+// Get a setting
+app.get('/api/v1/config/main/:category/:setting', function(request, response) {
+  let cat = request.params.category;
+  let set = request.params.setting;
+
+  if (request.app.locals.fullConfig[set] &&
+    request.app.locals.fullConfig[set].path === `/main/${cat}/${set}`) {
+      const gp1 = execFile('gphoto2', ['--get-config', `/main/${cat}/${set}`], (error, data) => {
+        let result = {};
+        let lines = data.toString().split('\n');
+        for (let i = 0; i < lines.length; i++) {
+          let line = lines[i];
+
+          if (line.substr(0, 6) === 'Label:') {
+            result.label = line.substr(7);
+          }
+          else if (line.substr(0, 5) === 'Type:') {
+            let type = line.substr(6);
+            result.type = type;
+            if (type === 'RADIO') {
+              result.options = [];
+            }
+          }
+          else if (line.substr(0, 8) === 'Current:') {
+            result.current = line.substr(9);
+          }
+          else if (line.substr(0, 7) === 'Choice:') {
+            let parts = line.split(' ');
+            result.options.push(parts.pop());
+          }
+          else {
+            // Printable, Help and the end of stdout end up here, that's fine
+            console.log(`WAT`);
+          }
+        }
+        response.send(result);
+      });
+    }
+  else {
+    response.status(404).send('No setting found');
+  }
 });
 
 // Change camera settings
@@ -74,7 +117,7 @@ app.post('/api/v1/config/main/:category/:setting', function(request, response) {
 
   if (cat === 'imgsettings' && set === 'iso' ||
     cat === 'capturesettings' && (set === 'shutterspeed' || set === 'aperture')) {
-      const entry = `/main/${request.params.category}/${request.params.setting}=${request.body.index}`;
+      const entry = `/main/${cat}/${set}=${request.body.index}`;
       const gp1 = execFile('gphoto2', ['--set-config-index', entry], () => {
         response.send('Modified');
       });
