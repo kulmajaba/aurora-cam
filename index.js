@@ -61,6 +61,22 @@ app.get('/api/v1/config', function(request, response) {
     console.log('Done')
 });
 
+app.post('/api/v1/config/main/:category/:setting', function(request, response) {
+    let cat = request.params.category;
+    let set = request.params.setting;
+
+    if (cat === 'imgsettings' && set === 'iso' ||
+        cat === 'capturesettings' && (set === 'shutterspeed' || set === 'aperture')) {
+            const entry = `/main/${request.params.category}/${request.params.setting}=${request.body.index}`;
+            const gp1 = execFile('gphoto2', ['--set-config-index', entry], () => {
+                response.send('Modified');
+            });
+        }
+    else {
+        response.status(405).send('POST request to path not supported');
+    }
+});
+
 // Take a picture
 app.post('/api/v1/capture', function(request, response) {
     const gp1 = spawn('gphoto2', ['--capture-image']);
