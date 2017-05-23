@@ -1,0 +1,25 @@
+{
+  "name": "aurora-cam",
+  "version": "1.0.0",
+  "description": "Remote controlled Aurora camera",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kulmajaba/aurora-cam.git"
+  },
+  "author": "Mika Kuitunen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kulmajaba/aurora-cam/issues"
+  },
+  "homepage": "https://github.com/kulmajaba/aurora-cam#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3"
+  },
+  "devDependencies": {}
+}
