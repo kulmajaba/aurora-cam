@@ -54,10 +54,12 @@ const gp = execFile('gphoto2', ['--auto-detect'], (error, data) => {
 const app = express();
 app.use(bodyParser.json());
 app.locals.fullConfig = getConfig();
+app.locals.host = 'http://localhost';
 
-app.get('/', function(request, response) {
-  response.send('Hello world!');
-});
+app.use(function (req, res, next) {
+  res.append('Access-Control-Allow-Origin', `${req.app.locals.host}:3000`);
+  next();
+})
 
 // Get all settings, their values and options
 // Current values can be outdated
@@ -135,6 +137,6 @@ app.post('/api/v1/capture', function(request, response) {
   });
 });
 
-app.listen(3000, function() {
-  console.log('We\'re live on 3000!');
+app.listen(8000, function() {
+  console.log('We\'re live on 8000!');
 });
