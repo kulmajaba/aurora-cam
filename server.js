@@ -58,6 +58,7 @@ app.locals.host = 'http://localhost';
 
 app.use(function (req, res, next) {
   res.append('Access-Control-Allow-Origin', `${req.app.locals.host}:3000`);
+  res.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 })
 

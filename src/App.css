@@ -1,10 +1,14 @@
+.aperture {
+  height: 5em;
+} 
+
 .App {
   text-align: center;
 }
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 5em;
 }
 
 .App-header {
@@ -14,8 +18,25 @@
   color: white;
 }
 
-.App-intro {
+.App-text {
   font-size: large;
+}
+
+.App-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.App-form select {
+  margin-bottom: 2em;
+}
+
+.App-form button {
+  background-color: #f2fcff;
+  border: 2px solid #07daf2;
+  border-radius: 50%;
+  padding: 5px;
 }
 
 @keyframes App-logo-spin {

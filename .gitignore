@@ -97,3 +97,6 @@ typings/
 !.vscode/extensions.json
 
 # End of https://www.gitignore.io/api/node,macos,visualstudiocode
+
+# Saved images
+*.CR2
