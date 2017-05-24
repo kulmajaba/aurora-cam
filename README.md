@@ -6,6 +6,7 @@ Node backend using gphoto2, React frontend
 Prerequisites:
 * Node and npm
 * gphoto2
+* convert from ImageMagick
 
 Running for development:
 * `npm start` to start the React dev server

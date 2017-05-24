@@ -53,6 +53,7 @@ const gp = execFile('gphoto2', ['--auto-detect'], (error, data) => {
 
 const app = express();
 app.use(bodyParser.json());
+app.use(express.static('img'));
 app.locals.fullConfig = getConfig();
 app.locals.host = 'http://localhost';
 
@@ -140,8 +141,8 @@ app.post('/api/v1/capture', function(request, response) {
         if (line[0] === 'Saving') {
           filename = line[3];
           console.log(filename);
-          const gp2 = execFile('convert', [`${filename}`, '-resize', '300x300', `${filename.split('.')[0]}.jpg`], (error, data) => {
-            response.status(201).sendFile(`./${filename.split('.')[0]}.jpg`, { root: __dirname });
+          const gp2 = execFile('convert', [`${filename}`, '-resize', '300x300', `./img/${filename.split('.')[0]}.jpg`], (error, data) => {
+            response.status(201).send(`${filename.split('.')[0]}.jpg`);
           });
         }
       }

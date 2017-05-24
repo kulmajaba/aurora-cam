@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Image from 'react-image-file';
 
 import aperture from './aperture.svg';
 import './App.css';
@@ -55,11 +54,13 @@ class App extends Component {
     const hostname = window.location.hostname;
     axios.post(`http://${hostname}:8000/api/v1/capture`)
       .then((response) => {
-        this.setState({ image: `data:image/jpeg;base64;${response.data}` });
+        this.setState({ image: response.data });
       });
   }
 
   render() {
+    const hostname = window.location.hostname;
+
     let selections = <LoadingView />;
     if (!this.state.loading) {
       selections = (
@@ -93,7 +94,7 @@ class App extends Component {
       );
     }
 
-    let image = this.state.image ? <Image src={this.state.image} alt="preview"/> : null;
+    let image = this.state.image ? <img className="thm" src={`http://${hostname}:8000/${this.state.image}`} width={300} height={200} alt="preview"/> : null;
 
     return (
       <div className="App">
