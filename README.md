@@ -1,7 +1,10 @@
 # aurora-cam
 
-A web-based control UI for a DSLR
+A web-based control UI for a DSLR.
+
 Node backend using gphoto2, React frontend
+
+Important: this is a hacked-together project done in less that 24 hours as a challenge. Don't take this as an example on how to do anything.
 
 Prerequisites:
 * Node and npm
