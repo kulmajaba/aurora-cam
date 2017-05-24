@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-
 import axios from 'axios';
+import Image from 'react-image-file';
+
 import aperture from './aperture.svg';
 import './App.css';
 
@@ -15,7 +16,8 @@ class App extends Component {
       config: {},
       shutterspeed: 0,
       aperture: 0,
-      iso: 0
+      iso: 0,
+      img: null
     };
   }
   componentWillMount() {
@@ -52,8 +54,8 @@ class App extends Component {
   _capture() {
     const hostname = window.location.hostname;
     axios.post(`http://${hostname}:8000/api/v1/capture`)
-      .then(() => {
-        // Doned
+      .then((response) => {
+        this.setState({ image: `data:image/jpeg;base64;${response.data}` });
       });
   }
 
@@ -63,7 +65,7 @@ class App extends Component {
       selections = (
         <div className="App-form">
           <p>Shutter speed</p>
-          <select name="shutterspeed" value={this.state.shutter} onChange={ (event) => this._onChange(event) }>
+          <select name="shutterspeed" value={this.state.shutterspeed} onChange={ (event) => this._onChange(event) }>
             {
               this.state.config.shutterspeed.options.map((opt, index) => {
                 return <option key={index} value={index}>{opt}</option>;
@@ -91,6 +93,8 @@ class App extends Component {
       );
     }
 
+    let image = this.state.image ? <Image src={this.state.image} alt="preview"/> : null;
+
     return (
       <div className="App">
         <div className="App-header">
@@ -100,7 +104,10 @@ class App extends Component {
         <p className="App-text">
           Change the settings to your liking and take a picture.
         </p>
-        { selections }
+        <div className="inline">
+          { selections }
+          { image }
+        </div>
       </div>
     );
   }

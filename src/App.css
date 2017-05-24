@@ -30,6 +30,7 @@
 
 .App-form select {
   margin-bottom: 2em;
+  font-size: large;
 }
 
 .App-form button {
@@ -37,6 +38,12 @@
   border: 2px solid #07daf2;
   border-radius: 50%;
   padding: 5px;
+}
+
+.inline {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 @keyframes App-logo-spin {

@@ -133,8 +133,19 @@ app.post('/api/v1/config/main/:category/:setting', function(request, response) {
 // Take a picture
 app.post('/api/v1/capture', function(request, response) {
   const gp1 = execFile('gphoto2', ['--capture-image-and-download'], (error, data) => {
+    let lines = data.toString().split('\n');
+      let filename;
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].split(' ');
+        if (line[0] === 'Saving') {
+          filename = line[3];
+          console.log(filename);
+          const gp2 = execFile('convert', [`${filename}`, '-resize', '300x300', `${filename.split('.')[0]}.jpg`], (error, data) => {
+            response.status(201).sendFile(`./${filename.split('.')[0]}.jpg`, { root: __dirname });
+          });
+        }
+      }
     console.log(data);
-    response.status(201).send('Success');
   });
 });
 
