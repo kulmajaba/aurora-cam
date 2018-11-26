@@ -22,7 +22,7 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
-    "react": "^15.5.4",
+    "react": "^15.6.2",
     "react-dom": "^15.5.4",
     "axios": "^0.16.1"
   },
