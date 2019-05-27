@@ -21,7 +21,7 @@
   "homepage": "https://github.com/kulmajaba/aurora-cam#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
-    "express": "^4.15.3",
+    "express": "^4.17.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "axios": "^0.16.1"
