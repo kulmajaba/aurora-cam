@@ -1,5 +1,7 @@
 # aurora-cam
 
+**This repository is archived and has not been updated since 2017.**
+
 A web-based control UI for a DSLR.
 
 Node backend using gphoto2, React frontend
